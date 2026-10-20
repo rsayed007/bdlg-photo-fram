@@ -61,6 +61,11 @@
     --color-brand-foreground: var(--brand-foreground);
     --color-brand-red: var(--brand-red);
 
+    /* Chart series (validated categorical slots 1-3, see dataviz palette). */
+    --color-series-1: var(--series-1);
+    --color-series-2: var(--series-2);
+    --color-series-3: var(--series-3);
+
     --color-sidebar: var(--sidebar-background);
     --color-sidebar-foreground: var(--sidebar-foreground);
     --color-sidebar-primary: var(--sidebar-primary);
@@ -101,6 +106,9 @@
     --brand: hsl(163, 100%, 21%);
     --brand-foreground: hsl(0, 0%, 100%);
     --brand-red: hsl(353, 90%, 56%);
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
     --secondary: hsl(0, 0%, 96.1%);
     --secondary-foreground: hsl(0, 0%, 9%);
     --muted: hsl(0, 0%, 96.1%);
@@ -140,6 +148,9 @@
     --brand: hsl(160, 70%, 40%);
     --brand-foreground: hsl(0, 0%, 100%);
     --brand-red: hsl(353, 90%, 60%);
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
     --secondary: hsl(0, 0%, 14.9%);
     --secondary-foreground: hsl(0, 0%, 98%);
     --muted: hsl(0, 0%, 6.9%);

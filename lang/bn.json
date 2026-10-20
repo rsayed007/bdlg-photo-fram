@@ -83,6 +83,7 @@
     "guide.view_on_maps": "গুগল ম্যাপসে দেখুন",
     "guide.pending_title": "তথ্য আনা হচ্ছে…",
     "guide.pending_body": "এই প্রোফাইলটি প্রথম আপডেটের সারিতে আছে। পেজটি স্বয়ংক্রিয়ভাবে রিফ্রেশ হবে।",
+    "guide.queue_position": "সারিতে অবস্থান: :position।",
     "guide.restricted_title": "সীমাবদ্ধ প্রোফাইল",
     "guide.restricted_body": "এই প্রোফাইলের তথ্য দেখা যাচ্ছে না। গুগল ম্যাপসে আপনার প্রোফাইল → Edit profile খুলে “Restricted profile” বন্ধ করুন। পরের দৈনিক আপডেটে আমরা আবার দেখব।",
     "guide.failed_title": "আপডেটে সমস্যা",

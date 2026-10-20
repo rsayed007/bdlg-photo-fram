@@ -83,6 +83,7 @@
     "guide.view_on_maps": "View on Google Maps",
     "guide.pending_title": "Fetching stats…",
     "guide.pending_body": "This profile is queued for its first update. This page refreshes automatically.",
+    "guide.queue_position": "Queue position: :position.",
     "guide.restricted_title": "Restricted profile",
     "guide.restricted_body": "We can’t see this profile’s stats. In Google Maps open your profile → Edit profile and turn OFF “Restricted profile”. We’ll check again in the next daily update.",
     "guide.failed_title": "Sync problems",
