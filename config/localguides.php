@@ -26,6 +26,7 @@ return [
     */
     'sync' => [
         'per_minute' => (int) env('LG_SYNC_PER_MINUTE', 4),
+        // Settle delay after the profile text appears (Maps never goes network-idle).
         'wait_ms' => (int) env('LG_SYNC_WAIT_MS', 4000),
         'timeout' => (int) env('LG_SYNC_TIMEOUT', 45),
         'jitter' => [(int) env('LG_SYNC_JITTER_MIN', 5), (int) env('LG_SYNC_JITTER_MAX', 15)],
@@ -42,25 +43,40 @@ return [
     |--------------------------------------------------------------------------
     | Parser patterns (see docs/PARSER.md)
     |--------------------------------------------------------------------------
-    | Applied to document.body.innerText of the rendered profile (hl=en).
-    | Each pattern's first capture group is the number. Numbers are stripped of
-    | non-digits; a pattern that doesn't match yields null (never 0).
-    | Verified against tests/Fixtures/profiles/*.txt.
+    | Applied to the text returned by BrowsershotProfileFetcher: the page's
+    | innerText after opening the "Contributions from <name>" panel, plus
+    | numeric aria-labels (e.g. "8,591,611 views"). The first non-empty capture
+    | group is the number; non-digits are stripped. No match → null (never 0).
+    |
+    | Real format (verified 2026-10 against tests/Fixtures/profiles/*.txt):
+    |   Local Guide Level 8          20,232 / 50,000 points
+    |   Reviews\n282                 Photos\n1,473        Places added\n53
+    | The inline variants ("Level 8 Local Guide", "282 reviews") are kept as
+    | fallbacks for older/mobile layouts.
     */
     'patterns' => [
-        'level' => '/Level\s+(\d+)\s+Local\s+Guide/i',
-        'points' => '/([\d,.]+)\s+points/i',
-        'reviews' => '/([\d,.]+)\s+reviews?\b/i',
-        'photos' => '/([\d,.]+)\s+photos?\b/i',
-        'videos' => '/([\d,.]+)\s+videos?\b/i',
-        'photo_views' => '/([\d,.]+)\s+views\b/i',
-        'places_added' => '/([\d,.]+)\s+places?\s+added/i',
-        'roads_added' => '/([\d,.]+)\s+roads?\s+added/i',
+        'level' => '/Local\s+Guide\s*[·•]?\s*Level\s+(\d{1,2})\b|\bLevel\s+(\d{1,2})\s+Local\s+Guide/i',
+        // "20,232 / 50,000 points" → 20,232 (the second number is the next-level target).
+        // Inline alternatives use \h (same line only) so a number on the line
+        // above a label (e.g. "Ratings\n2,201\n\nPhotos") is never picked up.
+        'points' => '/([\d][\d,.]*)\h*(?:\/\h*[\d,.]+\h*)?points\b/i',
+        'reviews' => '/^\h*Reviews\h*\R\h*([\d][\d,.]*)\h*$|([\d][\d,.]*)\h+reviews\b/mi',
+        'photos' => '/^\h*Photos\h*\R\h*([\d][\d,.]*)\h*$|([\d][\d,.]*)\h+photos\b/mi',
+        'videos' => '/^\h*Videos\h*\R\h*([\d][\d,.]*)\h*$|([\d][\d,.]*)\h+videos\b/mi',
+        'photo_views' => '/([\d][\d,.]*)\h+views\b/i',
+        'places_added' => '/^\h*Places\h+added\h*\R\h*([\d][\d,.]*)\h*$|([\d][\d,.]*)\h+places?\h+added\b/mi',
+        'roads_added' => '/^\h*Roads\h+added\h*\R\h*([\d][\d,.]*)\h*$|([\d][\d,.]*)\h+roads?\h+added\b/mi',
     ],
 
     /*
-    | Page-title suffixes stripped to get the contributor's name.
+    | The contributor's name. The page title is usually just "Google Maps", so
+    | the stats panel heading is tried first, then the line above the level
+    | badge, then the title (minus " - Google Maps").
     */
+    'name_patterns' => [
+        '/^\h*Contributions\s+from\s+(.+?)\h*$/mi',
+        '/^\h*([^\n]{1,200}?)\h*\R\h*Local\s+Guide\s*[·•]?\s*Level\s+\d/mi',
+    ],
     'title_suffixes' => [' - Google Maps', ' – Google Maps'],
 
     /*
