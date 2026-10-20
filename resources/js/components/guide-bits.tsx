@@ -13,9 +13,20 @@ export function GuideAvatar({ name, url, className }: { name: string | null; url
         .toUpperCase();
 
     return url ? (
-        <img src={url} alt="" referrerPolicy="no-referrer" loading="lazy" className={cn('bg-muted size-9 shrink-0 rounded-full object-cover', className)} />
+        <img
+            src={url}
+            alt=""
+            referrerPolicy="no-referrer"
+            loading="lazy"
+            className={cn('bg-muted size-9 shrink-0 rounded-full object-cover', className)}
+        />
     ) : (
-        <span className={cn('bg-muted text-muted-foreground flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold', className)}>
+        <span
+            className={cn(
+                'bg-muted text-muted-foreground flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold',
+                className,
+            )}
+        >
             {initials}
         </span>
     );
@@ -43,7 +54,10 @@ export function LevelBadge({ level, className }: { level: number | null; classNa
 export function Num({ value, compact = false, className }: { value: number | null | undefined; compact?: boolean; className?: string }) {
     const unknown = value === null || value === undefined;
     return (
-        <span className={cn('tabular-nums', unknown && 'text-muted-foreground', className)} title={!unknown && compact ? formatNumber(value) : undefined}>
+        <span
+            className={cn('tabular-nums', unknown && 'text-muted-foreground', className)}
+            title={!unknown && compact ? formatNumber(value) : undefined}
+        >
             {compact ? formatCompact(value) : formatNumber(value)}
         </span>
     );

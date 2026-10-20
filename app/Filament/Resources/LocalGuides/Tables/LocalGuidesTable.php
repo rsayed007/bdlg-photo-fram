@@ -39,7 +39,7 @@ class LocalGuidesTable
             ])
             ->filters([
                 SelectFilter::make('status')->options(GuideStatus::class)->multiple(),
-                SelectFilter::make('level')->options(array_combine(range(1, 10), range(1, 10))),
+                SelectFilter::make('level')->options(collect(range(1, 10))->mapWithKeys(fn (int $l) => [$l => "Level {$l}"])->all()),
                 TernaryFilter::make('claimed')
                     ->queries(
                         true: fn (Builder $q) => $q->whereNotNull('user_id'),

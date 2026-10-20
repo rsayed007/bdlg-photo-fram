@@ -69,9 +69,7 @@ const FrameStage = forwardRef<FrameStageHandle, Props>(function FrameStage(
             return renderNative().toDataURL('image/png');
         },
         exportBlob() {
-            return new Promise((resolve, reject) =>
-                renderNative().toBlob((b) => (b ? resolve(b) : reject(new Error('Export failed'))), 'image/png'),
-            );
+            return new Promise((resolve, reject) => renderNative().toBlob((b) => (b ? resolve(b) : reject(new Error('Export failed'))), 'image/png'));
         },
     }));
 
@@ -131,64 +129,69 @@ const FrameStage = forwardRef<FrameStageHandle, Props>(function FrameStage(
                                 c.closePath();
                             }}
                         >
-                            {photo ? (
-                                (() => {
-                                    const size = coverSize(slot, { width: photo.image.naturalWidth, height: photo.image.naturalHeight }, photo.zoom);
-                                    return (
-                                        <KImage
-                                            image={photo.image}
-                                            width={size.w}
-                                            height={size.h}
-                                            offsetX={size.w / 2}
-                                            offsetY={size.h / 2}
-                                            x={photo.dx}
-                                            y={photo.dy}
-                                            draggable={interactive}
-                                            onMouseDown={() => onSelect?.(i)}
-                                            onTouchStart={(e) => {
-                                                onSelect?.(i);
-                                                const t = e.evt.touches;
-                                                if (t.length === 2) {
-                                                    e.target.stopDrag();
-                                                    pinch.current = { slot: i, dist: Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY) };
-                                                }
-                                            }}
-                                            onTouchMove={(e) => {
-                                                const t = e.evt.touches;
-                                                if (t.length !== 2 || !pinch.current || pinch.current.slot !== i) return;
-                                                e.evt.preventDefault();
-                                                e.target.stopDrag();
-                                                const dist = Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
-                                                const zoom = Math.min(4, Math.max(1, photo.zoom * (dist / pinch.current.dist)));
-                                                pinch.current.dist = dist;
-                                                updatePhoto(i, { zoom });
-                                            }}
-                                            onTouchEnd={() => (pinch.current = null)}
-                                            onDragMove={(e) => {
-                                                const clamped = clampOffset(slot, { ...photo, dx: e.target.x(), dy: e.target.y() });
-                                                e.target.position({ x: clamped.dx, y: clamped.dy });
-                                            }}
-                                            onDragEnd={(e) => updatePhoto(i, { dx: e.target.x(), dy: e.target.y() })}
-                                        />
-                                    );
-                                })()
-                            ) : (
-                                showPlaceholders && (
-                                    <Group name="editor-only" onMouseDown={() => onSelect?.(i)} onTouchStart={() => onSelect?.(i)}>
-                                        <Rect x={-slot.w / 2} y={-slot.h / 2} width={slot.w} height={slot.h} fill="rgba(15,118,110,0.12)" />
-                                        <Text
-                                            x={-slot.w / 2}
-                                            y={-20}
-                                            width={slot.w}
-                                            align="center"
-                                            text={`＋ ${i + 1}`}
-                                            fontSize={40}
-                                            fontStyle="bold"
-                                            fill="rgba(15,118,110,0.7)"
-                                        />
-                                    </Group>
-                                )
-                            )}
+                            {photo
+                                ? (() => {
+                                      const size = coverSize(
+                                          slot,
+                                          { width: photo.image.naturalWidth, height: photo.image.naturalHeight },
+                                          photo.zoom,
+                                      );
+                                      return (
+                                          <KImage
+                                              image={photo.image}
+                                              width={size.w}
+                                              height={size.h}
+                                              offsetX={size.w / 2}
+                                              offsetY={size.h / 2}
+                                              x={photo.dx}
+                                              y={photo.dy}
+                                              draggable={interactive}
+                                              onMouseDown={() => onSelect?.(i)}
+                                              onTouchStart={(e) => {
+                                                  onSelect?.(i);
+                                                  const t = e.evt.touches;
+                                                  if (t.length === 2) {
+                                                      e.target.stopDrag();
+                                                      pinch.current = {
+                                                          slot: i,
+                                                          dist: Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY),
+                                                      };
+                                                  }
+                                              }}
+                                              onTouchMove={(e) => {
+                                                  const t = e.evt.touches;
+                                                  if (t.length !== 2 || !pinch.current || pinch.current.slot !== i) return;
+                                                  e.evt.preventDefault();
+                                                  e.target.stopDrag();
+                                                  const dist = Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+                                                  const zoom = Math.min(4, Math.max(1, photo.zoom * (dist / pinch.current.dist)));
+                                                  pinch.current.dist = dist;
+                                                  updatePhoto(i, { zoom });
+                                              }}
+                                              onTouchEnd={() => (pinch.current = null)}
+                                              onDragMove={(e) => {
+                                                  const clamped = clampOffset(slot, { ...photo, dx: e.target.x(), dy: e.target.y() });
+                                                  e.target.position({ x: clamped.dx, y: clamped.dy });
+                                              }}
+                                              onDragEnd={(e) => updatePhoto(i, { dx: e.target.x(), dy: e.target.y() })}
+                                          />
+                                      );
+                                  })()
+                                : showPlaceholders && (
+                                      <Group name="editor-only" onMouseDown={() => onSelect?.(i)} onTouchStart={() => onSelect?.(i)}>
+                                          <Rect x={-slot.w / 2} y={-slot.h / 2} width={slot.w} height={slot.h} fill="rgba(15,118,110,0.12)" />
+                                          <Text
+                                              x={-slot.w / 2}
+                                              y={-20}
+                                              width={slot.w}
+                                              align="center"
+                                              text={`＋ ${i + 1}`}
+                                              fontSize={40}
+                                              fontStyle="bold"
+                                              fill="rgba(15,118,110,0.7)"
+                                          />
+                                      </Group>
+                                  )}
                         </Group>
                     );
                 })}
@@ -213,7 +216,14 @@ const FrameStage = forwardRef<FrameStageHandle, Props>(function FrameStage(
                 ))}
 
                 {qr && config.qr?.enabled && (
-                    <KImage image={qr} x={config.qr.x ?? 0} y={config.qr.y ?? 0} width={config.qr.size ?? 140} height={config.qr.size ?? 140} listening={false} />
+                    <KImage
+                        image={qr}
+                        x={config.qr.x ?? 0}
+                        y={config.qr.y ?? 0}
+                        width={config.qr.size ?? 140}
+                        height={config.qr.size ?? 140}
+                        listening={false}
+                    />
                 )}
 
                 {/* Selection outline (editor only) */}

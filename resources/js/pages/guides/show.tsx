@@ -1,5 +1,5 @@
-import { GuideAvatar, LevelBadge, StatCard, StatusBadge } from '@/components/guide-bits';
 import { filterRange, MetricChart, RangeToggle, type Range } from '@/components/growth-chart';
+import { GuideAvatar, LevelBadge, StatCard, StatusBadge } from '@/components/guide-bits';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/public-layout';
 import { formatDecimal, relativeTime } from '@/lib/format';
@@ -107,7 +107,9 @@ export default function GuideShow({ guide, ranks, history, generations }: Props)
                     }
                 />
             )}
-            {guide.status === 'restricted' && <Notice icon={Lock} tone="warning" title={t('guide.restricted_title')} body={t('guide.restricted_body')} />}
+            {guide.status === 'restricted' && (
+                <Notice icon={Lock} tone="warning" title={t('guide.restricted_title')} body={t('guide.restricted_body')} />
+            )}
             {guide.status === 'failed' && <Notice icon={AlertTriangle} tone="danger" title={t('guide.failed_title')} body={t('guide.failed_body')} />}
 
             {/* Stat cards */}
@@ -133,7 +135,12 @@ export default function GuideShow({ guide, ranks, history, generations }: Props)
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                     {metrics.map((m) => (
-                        <MetricChart key={m.key} title={m.label} rows={rows as unknown as Record<string, number | string | null>[]} series={[{ key: m.key, label: m.label, color: 'var(--series-1)' }]} />
+                        <MetricChart
+                            key={m.key}
+                            title={m.label}
+                            rows={rows as unknown as Record<string, number | string | null>[]}
+                            series={[{ key: m.key, label: m.label, color: 'var(--series-1)' }]}
+                        />
                     ))}
                 </div>
             </section>

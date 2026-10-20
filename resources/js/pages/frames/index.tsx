@@ -16,7 +16,9 @@ export default function FramesIndex({ groups }: Props) {
             <h1 className="text-2xl font-bold sm:text-3xl">{t('frames.title')}</h1>
             <p className="text-muted-foreground mt-1 text-sm">{t('frames.subtitle')}</p>
 
-            {groups.length === 0 && <p className="text-muted-foreground mt-8 rounded-xl border border-dashed p-8 text-center">{t('home.frames.empty')}</p>}
+            {groups.length === 0 && (
+                <p className="text-muted-foreground mt-8 rounded-xl border border-dashed p-8 text-center">{t('home.frames.empty')}</p>
+            )}
 
             <div className="mt-8 space-y-10">
                 {groups.map((group) => (
@@ -25,9 +27,15 @@ export default function FramesIndex({ groups }: Props) {
                         {group.description && <p className="text-muted-foreground mt-1 text-sm">{group.description}</p>}
                         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
                             {group.frames.map((frame) => (
-                                <Link key={frame.id} href={frame.create_url} className="group bg-card overflow-hidden rounded-xl border hover:shadow-md">
+                                <Link
+                                    key={frame.id}
+                                    href={frame.create_url}
+                                    className="group bg-card overflow-hidden rounded-xl border hover:shadow-md"
+                                >
                                     <div className="bg-muted overflow-hidden" style={{ aspectRatio: `${frame.size_w} / ${frame.size_h}` }}>
-                                        {frame.thumbnail_url && <img src={frame.thumbnail_url} alt="" loading="lazy" className="size-full object-cover" />}
+                                        {frame.thumbnail_url && (
+                                            <img src={frame.thumbnail_url} alt="" loading="lazy" className="size-full object-cover" />
+                                        )}
                                     </div>
                                     <div className="p-3">
                                         <div className="line-clamp-2 text-sm font-medium">{frame.title}</div>

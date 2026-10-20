@@ -150,7 +150,11 @@ class GuideActions
             ->requiresConfirmation()
             ->modalDescription('Each profile is queued on sync-priority (still rate limited to a few per minute).')
             ->action(function (Collection $records) {
-                $records->each(fn (LocalGuide $g) => $g->status !== GuideStatus::Inactive && SyncLocalGuide::dispatch($g, true));
+                foreach ($records as $guide) {
+                    if ($guide instanceof LocalGuide && $guide->status !== GuideStatus::Inactive) {
+                        SyncLocalGuide::dispatch($guide, true);
+                    }
+                }
                 Notification::make()->title("Queued {$records->count()} profiles")->success()->send();
             })
             ->deselectRecordsAfterCompletion();

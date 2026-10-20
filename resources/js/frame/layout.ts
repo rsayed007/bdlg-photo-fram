@@ -5,7 +5,18 @@ import type { FrameConfig, FrameStats, PhotoSlot, PlacedPhoto, TextSlot } from '
  * Pure layout helpers shared by the editor and the server-side renderer.
  */
 
-const STAT_FIELDS = ['name', 'level', 'points', 'reviews', 'photos', 'videos', 'photo_views', 'places_added', 'roads_added', 'views_per_photo'] as const;
+const STAT_FIELDS = [
+    'name',
+    'level',
+    'points',
+    'reviews',
+    'photos',
+    'videos',
+    'photo_views',
+    'places_added',
+    'roads_added',
+    'views_per_photo',
+] as const;
 
 function formatValue(value: number | string | null | undefined, format: TextSlot['format']): string | null {
     if (value === null || value === undefined || value === '') return null;

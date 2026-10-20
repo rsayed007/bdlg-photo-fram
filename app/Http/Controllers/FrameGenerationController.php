@@ -49,7 +49,9 @@ class FrameGenerationController extends Controller
 
         // Only the member's own temp uploads may be attached.
         $prefix = "tmp/{$user->id}/";
-        $sources = collect($data['sources'] ?? [])->filter()->values();
+        /** @var list<string|null> $sourceInput */
+        $sourceInput = $data['sources'] ?? [];
+        $sources = collect($sourceInput)->filter()->values();
         foreach ($sources as $path) {
             if (! str_starts_with($path, $prefix) || str_contains($path, '..') || ! Storage::exists($path)) {
                 throw ValidationException::withMessages(['sources' => 'Invalid photo reference.']);

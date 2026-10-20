@@ -67,7 +67,11 @@ export default function Share({ generation: g }: Props) {
                             </a>
                         </Button>
                         <Button asChild variant="outline" className="border-green-600 text-green-700 dark:text-green-400">
-                            <a href={`https://wa.me/?text=${encodeURIComponent(`${text}\n${g.share_url}`)}`} target="_blank" rel="noopener noreferrer">
+                            <a
+                                href={`https://wa.me/?text=${encodeURIComponent(`${text}\n${g.share_url}`)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 <MessageCircle className="size-4" />
                                 {t('share.whatsapp')}
                             </a>

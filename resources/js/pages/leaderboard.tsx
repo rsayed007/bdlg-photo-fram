@@ -71,8 +71,7 @@ export default function Leaderboard({ guides, filters, levels }: Props) {
 
     const sortBy = (key: string) => visit({ sort: key, dir: filters.sort === key && filters.dir === 'desc' ? 'asc' : 'desc' });
 
-    const toggle = (id: string) =>
-        setSelected((s) => (s.includes(id) ? s.filter((x) => x !== id) : s.length >= 3 ? s : [...s, id]));
+    const toggle = (id: string) => setSelected((s) => (s.includes(id) ? s.filter((x) => x !== id) : s.length >= 3 ? s : [...s, id]));
 
     const SortHeader = ({ col, className }: { col: { key: string; label: string }; className?: string }) => (
         <th className={cn('px-2 py-2 text-right font-medium whitespace-nowrap', className)}>
@@ -231,7 +230,9 @@ export default function Leaderboard({ guides, filters, levels }: Props) {
                                     </Link>
                                     <div className="shrink-0 text-right">
                                         <div className="text-sm font-semibold">
-                                            {sortCol?.decimal ? formatDecimal(g.views_per_photo) : (
+                                            {sortCol?.decimal ? (
+                                                formatDecimal(g.views_per_photo)
+                                            ) : (
                                                 <Num value={g[(sortCol?.key ?? 'points') as keyof Guide] as number | null} compact />
                                             )}
                                         </div>
@@ -249,7 +250,12 @@ export default function Leaderboard({ guides, filters, levels }: Props) {
                                 {guides.from}–{guides.to} / {guides.total}
                             </span>
                             <div className="flex gap-2">
-                                <Button variant="outline" size="sm" disabled={guides.current_page <= 1} onClick={() => visit({ page: guides.current_page - 1 })}>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={guides.current_page <= 1}
+                                    onClick={() => visit({ page: guides.current_page - 1 })}
+                                >
                                     <ChevronLeft className="size-4" />
                                     {t('common.previous')}
                                 </Button>

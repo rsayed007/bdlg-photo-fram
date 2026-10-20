@@ -10,8 +10,8 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        $email = (string) env('ADMIN_EMAIL', 'admin@example.com');
-        $password = env('ADMIN_PASSWORD');
+        $email = (string) config('localguides.admin.email');
+        $password = config('localguides.admin.password');
 
         if (! $password) {
             $this->command?->warn('ADMIN_PASSWORD is not set; skipping admin user.');
@@ -21,7 +21,7 @@ class AdminSeeder extends Seeder
 
         $admin = User::firstOrNew(['email' => $email]);
         $admin->fill([
-            'name' => (string) env('ADMIN_NAME', 'BDLG Admin'),
+            'name' => (string) config('localguides.admin.name'),
             'password' => $password,
         ]);
         $admin->role = UserRole::Admin;

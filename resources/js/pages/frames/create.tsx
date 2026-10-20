@@ -1,8 +1,8 @@
 import AddProfileForm from '@/components/add-profile-form';
 import { GuideAvatar, LevelBadge, Num, StatusBadge } from '@/components/guide-bits';
 import { Button } from '@/components/ui/button';
-import FrameStage, { type FrameStageHandle } from '@/frame/frame-stage';
 import { loadFrameFonts, loadImage } from '@/frame/fonts';
+import FrameStage, { type FrameStageHandle } from '@/frame/frame-stage';
 import { clampOffset } from '@/frame/layout';
 import type { EditorFrame, FrameStats, PlacedPhoto } from '@/frame/types';
 import PublicLayout from '@/layouts/public-layout';
@@ -255,7 +255,11 @@ export default function FrameCreate({ frame, guides, staleAfterHours }: Props) {
                     role="status"
                 >
                     {refreshing === 'updating' ? <RefreshCw className="size-4 animate-spin" /> : <Check className="size-4" />}
-                    {refreshing === 'updating' ? t('editor.updating_stats') : refreshing === 'updated' ? t('editor.stats_updated') : t('editor.stats_stale')}
+                    {refreshing === 'updating'
+                        ? t('editor.updating_stats')
+                        : refreshing === 'updated'
+                          ? t('editor.stats_updated')
+                          : t('editor.stats_stale')}
                 </div>
             )}
 
@@ -326,7 +330,9 @@ export default function FrameCreate({ frame, guides, staleAfterHours }: Props) {
                                             <div className="bg-muted h-1.5 overflow-hidden rounded-full">
                                                 <div className="bg-primary h-full transition-all" style={{ width: `${uploads[i].progress}%` }} />
                                             </div>
-                                            <div className="text-muted-foreground mt-1 text-xs">{t('editor.photos.uploading', { pct: uploads[i].progress ?? 0 })}</div>
+                                            <div className="text-muted-foreground mt-1 text-xs">
+                                                {t('editor.photos.uploading', { pct: uploads[i].progress ?? 0 })}
+                                            </div>
                                         </div>
                                     )}
                                     {uploads[i].error && <div className="mt-1 text-xs text-red-600">{uploads[i].error}</div>}
@@ -365,7 +371,10 @@ export default function FrameCreate({ frame, guides, staleAfterHours }: Props) {
                     <p className="text-muted-foreground mb-3 text-sm">{t('editor.adjust.hint')}</p>
                     <div ref={containerRef} className="mx-auto w-full max-w-[560px]">
                         {!assets.ready ? (
-                            <div className="bg-muted flex items-center justify-center rounded-lg" style={{ aspectRatio: `${frame.size_w} / ${frame.size_h}` }}>
+                            <div
+                                className="bg-muted flex items-center justify-center rounded-lg"
+                                style={{ aspectRatio: `${frame.size_w} / ${frame.size_h}` }}
+                            >
                                 <LoaderCircle className="text-muted-foreground size-6 animate-spin" />
                                 <span className="text-muted-foreground ml-2 text-sm">{t('editor.fonts_loading')}</span>
                             </div>

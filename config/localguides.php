@@ -3,6 +3,15 @@
 return [
 
     /*
+    | Admin account created by `make fresh` (AdminSeeder).
+    */
+    'admin' => [
+        'email' => env('ADMIN_EMAIL', 'admin@example.com'),
+        'password' => env('ADMIN_PASSWORD'),
+        'name' => env('ADMIN_NAME', 'BDLG Admin'),
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Profile URL resolution (Module A)
     |--------------------------------------------------------------------------

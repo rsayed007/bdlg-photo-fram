@@ -1,5 +1,5 @@
-import { GuideAvatar, LevelBadge, Num } from '@/components/guide-bits';
 import { filterRange, MetricChart, RangeToggle, type Range } from '@/components/growth-chart';
+import { GuideAvatar, LevelBadge, Num } from '@/components/guide-bits';
 import { Input } from '@/components/ui/input';
 import PublicLayout from '@/layouts/public-layout';
 import { formatDecimal } from '@/lib/format';
@@ -70,7 +70,10 @@ export default function Compare({ guides, q, candidates = [], max }: Props) {
                 byDate.set(h.date, row);
             }),
         );
-        const sorted = [...byDate.values()].sort((a, b) => String(a.date).localeCompare(String(b.date))) as ({ date: string } & Record<string, number | string | null>)[];
+        const sorted = [...byDate.values()].sort((a, b) => String(a.date).localeCompare(String(b.date))) as ({ date: string } & Record<
+            string,
+            number | string | null
+        >)[];
         return filterRange(sorted, range);
     }, [guides, metric, range]);
 
@@ -89,7 +92,12 @@ export default function Compare({ guides, q, candidates = [], max }: Props) {
             {guides.length < max && (
                 <div className="relative mt-4 max-w-md">
                     <Search className="text-muted-foreground absolute top-2.5 left-3 size-4" />
-                    <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('leaderboard.search_placeholder')} className="pl-9" />
+                    <Input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder={t('leaderboard.search_placeholder')}
+                        className="pl-9"
+                    />
                     {search && candidates.length > 0 && (
                         <ul className="bg-popover absolute z-20 mt-1 w-full overflow-hidden rounded-md border shadow-md">
                             {candidates.map((c) => (
@@ -156,8 +164,18 @@ export default function Compare({ guides, q, candidates = [], max }: Props) {
                                         <tr key={r.key}>
                                             <td className="text-muted-foreground px-3 py-2">{r.label}</td>
                                             {values.map((v, i) => (
-                                                <td key={i} className={cn('px-3 py-2 text-right', guides.length > 1 && v !== null && v === best && 'font-semibold')}>
-                                                    {r.decimal ? <span className="tabular-nums">{formatDecimal(v)}</span> : <Num value={v} compact={r.compact} />}
+                                                <td
+                                                    key={i}
+                                                    className={cn(
+                                                        'px-3 py-2 text-right',
+                                                        guides.length > 1 && v !== null && v === best && 'font-semibold',
+                                                    )}
+                                                >
+                                                    {r.decimal ? (
+                                                        <span className="tabular-nums">{formatDecimal(v)}</span>
+                                                    ) : (
+                                                        <Num value={v} compact={r.compact} />
+                                                    )}
                                                 </td>
                                             ))}
                                         </tr>

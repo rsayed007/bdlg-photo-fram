@@ -15,8 +15,8 @@ class ShareController extends Controller
     {
         $generation->load(['frame.event', 'localGuide']);
 
-        $name = $generation->localGuide?->name ?? ($generation->stats_snapshot['name'] ?? __('site.name'));
-        $eventName = $generation->frame->event?->name ?? $generation->frame->title;
+        $name = $generation->localGuide->name ?? ($generation->stats_snapshot['name'] ?? __('site.name'));
+        $eventName = $generation->frame->event->name ?? $generation->frame->title;
         $title = "{$name} — {$generation->frame->title}";
 
         return Inertia::render('share', [

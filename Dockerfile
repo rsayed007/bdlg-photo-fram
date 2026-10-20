@@ -97,4 +97,6 @@ COPY --chown=www-data:www-data . .
 COPY --chown=www-data:www-data --from=vendor /var/www/html/vendor ./vendor
 COPY --chown=www-data:www-data --from=assets /app/public/build ./public/build
 RUN composer dump-autoload --no-dev --optimize --classmap-authoritative \
-    && rm -rf node_modules tests storage/logs/*.log
+    && php artisan package:discover --ansi \
+    && php artisan filament:assets \
+    && rm -rf tests

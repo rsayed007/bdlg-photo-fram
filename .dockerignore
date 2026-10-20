@@ -1,0 +1,27 @@
+# Never bake secrets, VCS data or host-installed deps into images.
+.env
+.env.*
+!.env.example
+.git
+.github
+.vscode
+.idea
+node_modules
+vendor
+public/build
+public/hot
+public/storage
+public/css/filament
+public/js/filament
+public/fonts/filament
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/private/*
+storage/screenshots
+bootstrap/cache/*.php
+coverage
+*.log
+!storage/**/.gitignore
+!bootstrap/cache/.gitignore

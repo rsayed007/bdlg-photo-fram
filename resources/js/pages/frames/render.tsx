@@ -1,5 +1,5 @@
-import FrameStage, { type FrameStageHandle } from '@/frame/frame-stage';
 import { loadFrameFonts, loadImage } from '@/frame/fonts';
+import FrameStage, { type FrameStageHandle } from '@/frame/frame-stage';
 import type { EditorFrame, FrameStats, PlacedPhoto } from '@/frame/types';
 import { Head } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';

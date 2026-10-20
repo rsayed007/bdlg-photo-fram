@@ -18,7 +18,7 @@ class FrameController extends Controller
         $frames = Frame::active()->with('event')->get();
 
         return Inertia::render('frames/index', [
-            'groups' => $frames->groupBy(fn (Frame $f) => $f->event?->name ?? '')
+            'groups' => $frames->groupBy(fn (Frame $f) => $f->event->name ?? '')
                 ->map(fn ($group, $event) => [
                     'event' => $event !== '' ? $event : null,
                     'description' => $group->first()?->event?->description,

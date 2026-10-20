@@ -38,7 +38,12 @@ export default [
         },
     },
     {
-        ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js'],
+        // Build tooling runs in Node.
+        files: ['vite.config.js', 'eslint.config.js'],
+        languageOptions: { globals: { ...globals.node } },
+    },
+    {
+        ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js', 'storage'],
     },
     prettier, // Turn off all rules that might conflict with Prettier
 ];

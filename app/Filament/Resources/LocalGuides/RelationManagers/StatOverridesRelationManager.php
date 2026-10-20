@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\LocalGuides\RelationManagers;
 
+use App\Models\StatOverride;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -26,7 +27,7 @@ class StatOverridesRelationManager extends RelationManager
                 TextColumn::make('created_at')->dateTime()->sortable(),
                 TextColumn::make('user.name')->label('By')->placeholder('—'),
                 TextColumn::make('changes')
-                    ->formatStateUsing(fn ($state, $record) => collect($record->changes)
+                    ->formatStateUsing(fn ($state, StatOverride $record) => collect($record->changes)
                         ->map(fn ($c, $f) => "{$f}: ".($c['from'] ?? '∅').' → '.($c['to'] ?? '∅'))
                         ->implode(', '))
                     ->wrap(),

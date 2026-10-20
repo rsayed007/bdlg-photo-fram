@@ -45,7 +45,7 @@ class FramePresenter
             'image_url' => $generation->imageUrl(),
             'share_url' => $generation->shareUrl(),
             'frame_title' => $generation->frame->title,
-            'guide_name' => $generation->localGuide?->name ?? ($generation->stats_snapshot['name'] ?? null),
+            'guide_name' => $generation->localGuide->name ?? ($generation->stats_snapshot['name'] ?? null),
             'created_at' => $generation->created_at->toIso8601String(),
         ];
     }

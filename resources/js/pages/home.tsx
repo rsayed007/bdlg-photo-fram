@@ -37,7 +37,12 @@ export default function Home({ content, frames, featured, top, totals }: Props) 
                                     {t('home.cta_frame')}
                                 </Link>
                             </Button>
-                            <Button asChild size="lg" variant="outline" className="border-white/50 bg-transparent text-white hover:bg-white/10 hover:text-white">
+                            <Button
+                                asChild
+                                size="lg"
+                                variant="outline"
+                                className="border-white/50 bg-transparent text-white hover:bg-white/10 hover:text-white"
+                            >
                                 <a href="#add-profile">
                                     <Trophy className="size-4" />
                                     {t('home.cta_join')}
@@ -113,7 +118,12 @@ export default function Home({ content, frames, featured, top, totals }: Props) 
                                     href={g.share_url}
                                     className="bg-card w-36 shrink-0 snap-start overflow-hidden rounded-xl border sm:w-auto"
                                 >
-                                    <img src={g.image_url} alt={g.frame_title} loading="lazy" className="bg-muted aspect-[9/16] w-full object-cover" />
+                                    <img
+                                        src={g.image_url}
+                                        alt={g.frame_title}
+                                        loading="lazy"
+                                        className="bg-muted aspect-[9/16] w-full object-cover"
+                                    />
                                     <div className="p-2">
                                         <div className="line-clamp-1 text-xs font-medium">{g.guide_name ?? g.frame_title}</div>
                                         <div className="text-muted-foreground line-clamp-1 text-xs">{g.frame_title}</div>
