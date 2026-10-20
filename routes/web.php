@@ -4,6 +4,7 @@ use App\Http\Controllers\CompareController;
 use App\Http\Controllers\FrameAssetController;
 use App\Http\Controllers\FrameController;
 use App\Http\Controllers\FrameGenerationController;
+use App\Http\Controllers\FrameRenderController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
@@ -50,6 +51,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('dashboard', [FrameGenerationController::class, 'mine'])->name('dashboard');
 });
+
+// Internal render page (admin live preview + server-side renderer). Signed.
+Route::get('/internal/frames/{frame}/render', FrameRenderController::class)
+    ->middleware('signed:relative')
+    ->name('frames.render');
 
 // Temporary (signed) access to un-finalized uploads.
 Route::get('/uploads/{path}', [UploadController::class, 'show'])

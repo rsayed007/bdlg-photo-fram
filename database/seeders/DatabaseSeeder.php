@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             SettingsSeeder::class,
             DemoGuidesSeeder::class,
+            SampleFrameSeeder::class,
         ]);
     }
 }

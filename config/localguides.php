@@ -41,6 +41,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Optional server-side frame renderer (Browsershot)
+    |--------------------------------------------------------------------------
+    */
+    'render' => [
+        'enabled' => (bool) env('FEATURE_SERVER_RENDER', false),
+        // How Chromium inside Docker reaches the app (not the public APP_URL).
+        'internal_url' => env('RENDER_INTERNAL_URL', 'http://nginx'),
+        // Dev only: lets Chromium load Vite dev assets ("MAP localhost vite").
+        'host_rules' => env('BROWSERSHOT_HOST_RULES'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Parser patterns (see docs/PARSER.md)
     |--------------------------------------------------------------------------
     | Applied to the text returned by BrowsershotProfileFetcher: the page's
