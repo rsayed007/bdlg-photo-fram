@@ -2,49 +2,63 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
     /**
-     * The root template that's loaded on the first page visit.
-     *
-     * @see https://inertiajs.com/server-side-setup#root-template
-     *
      * @var string
      */
     protected $rootView = 'app';
 
-    /**
-     * Determines the current asset version.
-     *
-     * @see https://inertiajs.com/asset-versioning
-     */
     public function version(Request $request): ?string
     {
         return parent::version($request);
     }
 
     /**
-     * Define the props that are shared by default.
-     *
-     * @see https://inertiajs.com/shared-data
-     *
      * @return array<string, mixed>
      */
     public function share(Request $request): array
     {
-        [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
+        $locale = app()->getLocale();
+        $user = $request->user();
 
-        return array_merge(parent::share($request), [
+        return [
             ...parent::share($request),
             'name' => config('app.name'),
-            'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user ? [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'email_verified_at' => $user->email_verified_at,
+                    'is_admin' => $user->isAdmin(),
+                    'created_at' => $user->created_at,
+                    'updated_at' => $user->updated_at,
+                ] : null,
             ],
-        ]);
+            'locale' => $locale,
+            'translations' => fn () => $this->translations($locale),
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+                'queued' => fn () => $request->session()->get('queued'),
+            ],
+        ];
+    }
+
+    /** @return array<string, string> */
+    private function translations(string $locale): array
+    {
+        static $cache = [];
+
+        return $cache[$locale] ??= (function () use ($locale) {
+            $path = lang_path("{$locale}.json");
+
+            return File::exists($path) ? (array) json_decode(File::get($path), true) : [];
+        })();
     }
 }
