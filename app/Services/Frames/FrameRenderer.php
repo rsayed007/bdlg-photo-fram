@@ -43,7 +43,13 @@ class FrameRenderer
      */
     public static function pageUrl(Frame $frame, ?LocalGuide $guide = null, array $photos = [], bool $absolute = true): string
     {
-        $params = ['frame' => $frame, 'guide' => $guide?->contrib_id, 'photos' => array_values(array_filter($photos)) ?: null];
+        $params = [
+            'frame' => $frame,
+            'guide' => $guide?->contrib_id,
+            'photos' => array_values(array_filter($photos)) ?: null,
+            // Cache-buster for the admin preview iframe (part of the signature).
+            'v' => $frame->updated_at?->timestamp,
+        ];
 
         // Signed in relative form (route uses `signed:relative`) so the same URL
         // validates whether it is opened via APP_URL or the internal Docker host.

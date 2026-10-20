@@ -2,7 +2,10 @@
 
 namespace App\Enums;
 
-enum GuideStatus: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+
+enum GuideStatus: string implements HasColor, HasLabel
 {
     case Pending = 'pending';
     case Active = 'active';
@@ -20,6 +23,16 @@ enum GuideStatus: string
     public function label(): string
     {
         return ucfirst($this->value);
+    }
+
+    public function getLabel(): string
+    {
+        return $this->label();
+    }
+
+    public function getColor(): string
+    {
+        return $this->color();
     }
 
     public function color(): string
